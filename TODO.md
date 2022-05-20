@@ -1,14 +1,14 @@
 TODO:
 
-- [ ] Implement count option (-n) for a single file content
 - [ ] Change the contract of headLine function
+- [ ] Implement count option (-n) for a single file content
 
 - [ ] Implement head for a single file
-- [ ] Make head work for file content instead of file 
-- [ ] Test headLine function
  
 DONE:
 
+- [x] Make head work for file content instead of file 
+- [x] Test headLine function
 - [x] Seperate join and split functions
 - [x] Make '\n' as constant
 - [x] Seperate 'headLine' to get first 10 lines 
