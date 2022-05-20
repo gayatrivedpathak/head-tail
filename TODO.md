@@ -3,8 +3,13 @@ TODO:
 - [ ] Connect head.js to command line
 - [ ] Make head work with options from command line
 - [ ] Make parser for fileName and options 
+
+
 - [ ] Seperate headMain in seperate lib
 - [ ] Is 'headLine' function name is correct or not according contract? 
+- [ ] Rethink on option object 
+- [ ] Change contract of splitLines and joinLines
+- [ ] Rethink the contract of headLines and headCharacter
 
 MAYBE:
 
@@ -18,7 +23,7 @@ DONE:
 - [x] Implement byte option(-c) for a single file 
 - [x] Change contract of headLine, accepts content
 - [x] Use object as for options 
-- [x] Evestigate how head works for line count is zero
+- [x] Envestigate how head works for line count is zero
 - [x] Envestigate how head works for empty file
 - [x] Add test case empty file content
 - [x] Implement count option (-n) for a single file content
