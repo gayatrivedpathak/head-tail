@@ -3,11 +3,14 @@ TODO:
 
 - [ ] Implement head for a single file
 - [ ] Make head work for file content instead of file 
-- [ ] Make head function work for 10 line
-- [ ] Make head function work for 2 line
+- [ ] Seperate join and split functions
+- [ ] Seperate '\n'
 
 DONE:
 
+- [x] Make head function work for 2 line
+- [x] Head function should give first 10 lines if content exceeding more than 10 lines
+- [x] Make head function work for 10 line
 - [x] Make headlib.js
 - [x] Verify 'mocha' exists
 - [x] Make head function work for a line 
