@@ -5,7 +5,9 @@ const headLine = (lines) => lines.slice(0, 10);
 
 const head = (content) => {
   const lines = splitLines(content);
-  return joinLines(headLine(lines));
+  const firstLines = headLine(lines);
+  return joinLines(firstLines);
 };
 
 exports.head = head;
+exports.headLine = headLine;

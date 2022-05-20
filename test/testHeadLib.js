@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { head } = require('../src/headLib');
+const { head, headLine } = require('../src/headLib');
 
 describe('head', () => {
   it('should give a line ', () => {
@@ -17,5 +17,17 @@ describe('head', () => {
       'a\nb\nc\nd\ne\nf\ng\nh\ni\nj');
     assert.deepStrictEqual(head('a\nb\nc\nd\ne\nf\ng\nh\ni\nj\nk'),
       'a\nb\nc\nd\ne\nf\ng\nh\ni\nj');
+  });
+});
+
+describe('headLine', () => {
+  it('should give first 10 lines', () => {
+    assert.deepStrictEqual(
+      headLine(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']),
+      [
+        'a', 'b', 'c', 'd',
+        'e', 'f', 'g', 'h',
+        'i', 'j'
+      ]);
   });
 });

@@ -1,9 +1,11 @@
 TODO:
 
+- [ ] Implement count option (-n) for a single file content
+- [ ] Change the contract of headLine function
+
 - [ ] Implement head for a single file
 - [ ] Make head work for file content instead of file 
-- [ ] Implement count option (-n)
-- [ ] Change the contract of headLine function
+- [ ] Test headLine function
  
 DONE:
 
