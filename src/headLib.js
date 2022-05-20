@@ -1,6 +1,4 @@
-const NEWLINE = '\n';
-const splitLines = (content) => content.split(NEWLINE);
-const joinLines = (content) => content.join(NEWLINE);
+const { splitLines, joinLines } = require('../src/strUtils.js');
 
 const headLines = (content, count) => {
   const lines = splitLines(content);
