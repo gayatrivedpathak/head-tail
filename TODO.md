@@ -1,12 +1,15 @@
 TODO:
 
-- [ ] Change the contract of headLine function
-- [ ] Implement count option (-n) for a single file content
-
 - [ ] Implement head for a single file
- 
+- [ ] Evestigate how head works for line count is zero
+- [ ] Connect head.js to command line
+- [ ] Envestigate how head works for empty file
+- [ ] Add test case empty file content
+
 DONE:
 
+- [x] Implement count option (-n) for a single file content
+- [x] Change the contract of headLine function
 - [x] Make head work for file content instead of file 
 - [x] Test headLine function
 - [x] Seperate join and split functions
