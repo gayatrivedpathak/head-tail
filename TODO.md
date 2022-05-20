@@ -1,14 +1,18 @@
 TODO:
 
-- [ ] Envestigate how head works for empty file
-- [ ] Add test case empty file content
 
 - [ ] Implement head for a single file
-- [ ] Evestigate how head works for line count is zero
 - [ ] Connect head.js to command line
+- [ ] Seperate line functions in seperate lib
+- [ ] Implement byte option(-c) for a single file 
 
 DONE:
 
+- [x] Change contract of headLine, accepts content
+- [x] Use object as for options 
+- [x] Evestigate how head works for line count is zero
+- [x] Envestigate how head works for empty file
+- [x] Add test case empty file content
 - [x] Implement count option (-n) for a single file content
 - [x] Change the contract of headLine function
 - [x] Make head work for file content instead of file 
