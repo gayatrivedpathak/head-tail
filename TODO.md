@@ -1,13 +1,13 @@
 TODO:
 
-
 - [ ] Implement head for a single file
 - [ ] Connect head.js to command line
 - [ ] Seperate line functions in seperate lib
-- [ ] Implement byte option(-c) for a single file 
+- [ ] Extract slice function
 
 DONE:
 
+- [x] Implement byte option(-c) for a single file 
 - [x] Change contract of headLine, accepts content
 - [x] Use object as for options 
 - [x] Evestigate how head works for line count is zero
