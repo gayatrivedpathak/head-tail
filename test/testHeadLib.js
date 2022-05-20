@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { head, headLines, headCharacters } = require('../src/headLib');
+const { head, headLines, headCharacters, headMain } = require('../src/headLib');
 
 describe('head', () => {
   it('should give a line', () => {
@@ -65,3 +65,24 @@ describe('headCharacters', () => {
     assert.deepStrictEqual(headCharacters('a\nb', 2), 'a\n');
   });
 });
+
+const mockReadFileSync = (expectedFileName, content) => {
+  return (fileName, encoding) => {
+    assert.deepStrictEqual(expectedFileName, fileName);
+    assert.deepStrictEqual(encoding, 'utf8');
+    return content;
+  };
+};
+
+describe('headMain', () => {
+  it('should give the first 10 lines of given file', () => {
+    const mockedReadFileSync = mockReadFileSync(
+      './a.txt', 'a\nb\nc\nd\ne\nf\ng\nh\ni\nj'
+    );
+    assert.deepStrictEqual(
+      headMain(mockedReadFileSync, './a.txt'),
+      'a\nb\nc\nd\ne\nf\ng\nh\ni\nj'
+    );
+  });
+});
+

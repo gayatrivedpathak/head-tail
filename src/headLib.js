@@ -14,6 +14,13 @@ const head = (content, { option, value }) => {
   return operation(content, value);
 };
 
+const headMain = (readFile, ...args) => {
+  const fileName = args[args.length - 1];
+  const content = readFile(fileName, 'utf8');
+  return head(content, { option: 'lines', value: 10 });
+};
+
 exports.head = head;
 exports.headLines = headLines;
 exports.headCharacters = headCharacters;
+exports.headMain = headMain;

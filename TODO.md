@@ -1,8 +1,10 @@
 TODO:
 
-- [ ] Implement head for a single file
 - [ ] Connect head.js to command line
-- [ ] Make main function for head
+- [ ] Make head work with options from command line
+- [ ] Make parser for fileName and options 
+- [ ] Seperate headMain in seperate lib
+- [ ] Is 'headLine' function name is correct or not according contract? 
 
 MAYBE:
 
@@ -10,6 +12,8 @@ MAYBE:
 
 DONE:
 
+- [x] Implement head for a single file
+- [x] Make main function for head
 - [x] Seperate string functions in seperate lib
 - [x] Implement byte option(-c) for a single file 
 - [x] Change contract of headLine, accepts content
