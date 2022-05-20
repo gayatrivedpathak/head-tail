@@ -1,10 +1,11 @@
 TODO:
 
+- [ ] Envestigate how head works for empty file
+- [ ] Add test case empty file content
+
 - [ ] Implement head for a single file
 - [ ] Evestigate how head works for line count is zero
 - [ ] Connect head.js to command line
-- [ ] Envestigate how head works for empty file
-- [ ] Add test case empty file content
 
 DONE:
 

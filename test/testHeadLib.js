@@ -23,6 +23,10 @@ describe('head', () => {
     assert.deepStrictEqual(head('a\nb', 1), 'a');
     assert.deepStrictEqual(head('a\nb', 2), 'a\nb');
   });
+
+  it('should give empty string for empty lines', () => {
+    assert.deepStrictEqual(head('', 2), '');
+  });
 });
 
 describe('headLine', () => {
