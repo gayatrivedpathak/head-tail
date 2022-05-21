@@ -12,7 +12,15 @@ const getValue = (arg, nextArg) => {
   return +nextArg || +`${arg.match(/\d/)}`;
 };
 
+const isNotValidArgs = (args) => {
+  return args.includes('-c') && args.includes('-n');
+};
+
+// eslint-disable-next-line complexity
 const parseArgs = (args) => {
+  if (isNotValidArgs(args)) {
+    throw { message: 'head: can\'t combine line and byte counts' };
+  }
   const parsedArgs = { option: 'lines', value: 10, fileNames: [] };
   for (let index = 0; index < args.length; index++) {
     const arg = args[index];

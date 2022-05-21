@@ -32,7 +32,13 @@ const formatOutput = (headContents) => {
 };
 
 const headMain = (readFile, ...args) => {
-  const { fileNames, ...subOptions } = parseArgs(args);
+  let parsedArgs = {};
+  try {
+    parsedArgs = parseArgs(args);
+  } catch (err) {
+    return err.message;
+  }
+  const { fileNames, ...subOptions } = parsedArgs;
   const fileContents = fileNames.map((fileName) => {
     const content = readFile(fileName, 'utf8');
     return { fileName, content };

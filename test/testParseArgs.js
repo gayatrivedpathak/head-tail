@@ -45,6 +45,13 @@ describe('parseArgs', () => {
     assert.deepStrictEqual(parseArgs(['-n1', './b.txt', './d.txt']),
       { option: 'lines', value: 1, fileNames: ['./b.txt', './d.txt'] });
   });
+
+  it('should throw error -c and -n combined', () => {
+    assert.throws(() => parseArgs(['-n', 1, '-c', 2, './b.txt', './d.txt']),
+      {
+        message: 'head: can\'t combine line and byte counts'
+      });
+  });
 });
 
 describe('isOption', () => {
