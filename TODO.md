@@ -1,8 +1,7 @@
 TODO:
 
-- [ ] Make parser for fileName and options 
+- [ ] Extract getOption and getValue functions from parseArgs
 
-- [ ] Connect head.js to command line
 - [ ] Make head work with options from command line
 
 - [ ] Seperate headMain in seperate lib
@@ -17,6 +16,8 @@ MAYBE:
 
 DONE:
 
+- [x] Make parser for fileName and options 
+- [x] Connect head.js to command line
 - [x] Extract isOptionfunction for parseArgs
 - [x] Implement head for a single file
 - [x] Make main function for head

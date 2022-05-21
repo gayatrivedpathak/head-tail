@@ -25,17 +25,27 @@ describe('parseArgs', () => {
     assert.deepStrictEqual(parseArgs(['-c', '3', '-c', '5', './b.txt']),
       { option: 'character', value: 5, fileName: './b.txt' });
   });
+
+  it('should parse combined option and value', () => {
+    assert.deepStrictEqual(parseArgs(['-n3', './b.txt']),
+      { option: 'lines', value: 3, fileName: './b.txt' });
+  });
+
+  it('should parse combined option and value', () => {
+    assert.deepStrictEqual(parseArgs(['-n3', './b.txt']),
+      { option: 'lines', value: 3, fileName: './b.txt' });
+  });
+
+  it('should parse value without option', () => {
+    assert.deepStrictEqual(parseArgs(['-3', './b.txt']),
+      { option: 'lines', value: 3, fileName: './b.txt' });
+  });
 });
 
 describe('isOption', () => {
   it('should verify whether text is option or not', () => {
     assert.deepStrictEqual(isOption('-n'), true);
     assert.deepStrictEqual(isOption('n'), false);
-  });
-
-  it('should verify option length is two character', () => {
-    assert.deepStrictEqual(isOption('-'), false);
-    assert.deepStrictEqual(isOption('-n'), true);
-    assert.deepStrictEqual(isOption('-nc'), false);
+    assert.deepStrictEqual(isOption('-n1'), true);
   });
 });
