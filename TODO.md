@@ -1,7 +1,8 @@
 TODO:
 
-- [ ] Make head work for multiple files
+- [x] Make head work for multiple files
 - [ ] Seperate headMain in seperate lib
+- [ ] Handle error for reading files
 
 MAYBE:
 
