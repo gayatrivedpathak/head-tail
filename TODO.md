@@ -1,15 +1,16 @@
 TODO:
 
+- [ ] Make parser for fileName and options 
+- [ ] Extract isOptionfunction for parseArgs
+
 - [ ] Connect head.js to command line
 - [ ] Make head work with options from command line
-- [ ] Make parser for fileName and options 
-
 
 - [ ] Seperate headMain in seperate lib
+
 - [ ] Is 'headLine' function name is correct or not according contract? 
 - [ ] Rethink on option object 
 - [ ] Change contract of splitLines and joinLines
-- [ ] Rethink the contract of headLines and headCharacter
 
 MAYBE:
 

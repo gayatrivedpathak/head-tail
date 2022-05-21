@@ -1,4 +1,5 @@
 const { splitLines, joinLines } = require('../src/strUtils.js');
+const { parseArgs } = require('./parseArgs.js');
 
 const headLines = (content, count) => {
   const lines = splitLines(content);
@@ -15,9 +16,9 @@ const head = (content, { option, value }) => {
 };
 
 const headMain = (readFile, ...args) => {
-  const fileName = args[args.length - 1];
+  const { option, value, fileName } = parseArgs(args);
   const content = readFile(fileName, 'utf8');
-  return head(content, { option: 'lines', value: 10 });
+  return head(content, { option, value });
 };
 
 exports.head = head;

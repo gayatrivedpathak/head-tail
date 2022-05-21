@@ -84,5 +84,25 @@ describe('headMain', () => {
       'a\nb\nc\nd\ne\nf\ng\nh\ni\nj'
     );
   });
+
+  it('should give the first 2 lines of given file', () => {
+    const mockedReadFileSync = mockReadFileSync(
+      './a.txt', 'a\nb\nc'
+    );
+    assert.deepStrictEqual(
+      headMain(mockedReadFileSync, '-n', 2, './a.txt'),
+      'a\nb'
+    );
+  });
+
+  it('should give the first 3 characters of given file', () => {
+    const mockedReadFileSync = mockReadFileSync(
+      './a.txt', 'a\nb\nc'
+    );
+    assert.deepStrictEqual(
+      headMain(mockedReadFileSync, '-c', 3, './a.txt'),
+      'a\nb'
+    );
+  });
 });
 
