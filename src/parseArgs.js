@@ -14,7 +14,7 @@ const getValue = (arg, nextArg) => {
 
 ['-n1', '1'];
 const parseArgs = (args) => {
-  const parsedArgs = { option: 'lines', value: 10 };
+  const parsedArgs = { option: 'lines', value: 10, fileName: [] };
 
   for (let index = 0; index < args.length; index++) {
     const arg = args[index];
@@ -22,7 +22,7 @@ const parseArgs = (args) => {
       parsedArgs.option = getOptionName(arg);
       parsedArgs.value = getValue(arg, args[index + 1]);
     } else if (!isFinite(arg)) {
-      parsedArgs.fileName = arg;
+      parsedArgs.fileName.push(arg);
     }
   }
   return parsedArgs;

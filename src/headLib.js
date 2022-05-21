@@ -17,7 +17,7 @@ const head = (content, { option, value }) => {
 
 const headMain = (readFile, ...args) => {
   const { option, value, fileName } = parseArgs(args);
-  const content = readFile(fileName, 'utf8');
+  const content = readFile(...fileName, 'utf8');
   return head(content, { option, value });
 };
 
