@@ -3,25 +3,26 @@ const isOption = (text) => {
   return optionRegex.test(text);
 };
 
-const getOption = (text) => {
+const getOptionName = (text) => {
   const keys = { '-n': 'lines', '-c': 'character' };
   return keys['-' + `${text.match(/[nc]/)}`] || keys['-n'];
 };
 
-const getValue = (arg, args) => {
-  const argIndex = args.indexOf(arg);
-  return +args[argIndex + 1] || +`${args[argIndex].match(/[0-9]/)}`;
+const getValue = (arg, nextArg) => {
+  return +nextArg || +`${arg.match(/\d/)}`;
 };
 
+['-n1', '1'];
 const parseArgs = (args) => {
   const parsedArgs = { option: 'lines', value: 10 };
 
   for (let index = 0; index < args.length; index++) {
-    if (isOption(args[index])) {
-      parsedArgs.option = getOption(args[index]);
-      parsedArgs.value = getValue(args[index], args.slice(index));
-    } else if (!isFinite(args[index])) {
-      parsedArgs.fileName = args[index];
+    const arg = args[index];
+    if (isOption(arg)) {
+      parsedArgs.option = getOptionName(arg);
+      parsedArgs.value = getValue(arg, args[index + 1]);
+    } else if (!isFinite(arg)) {
+      parsedArgs.fileName = arg;
     }
   }
   return parsedArgs;
