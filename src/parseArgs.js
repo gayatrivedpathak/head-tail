@@ -12,10 +12,8 @@ const getValue = (arg, nextArg) => {
   return +nextArg || +`${arg.match(/\d/)}`;
 };
 
-['-n1', '1'];
 const parseArgs = (args) => {
   const parsedArgs = { option: 'lines', value: 10, fileNames: [] };
-
   for (let index = 0; index < args.length; index++) {
     const arg = args[index];
     if (isOption(arg)) {
