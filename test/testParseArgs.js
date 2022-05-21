@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { parseArgs } = require('../src/parseArgs.js');
+const { parseArgs, isOption } = require('../src/parseArgs.js');
 
 describe('parseArgs', () => {
   it('should parse just a file name', () => {
@@ -24,5 +24,18 @@ describe('parseArgs', () => {
       { option: 'lines', value: 5, fileName: './b.txt' });
     assert.deepStrictEqual(parseArgs(['-c', '3', '-c', '5', './b.txt']),
       { option: 'character', value: 5, fileName: './b.txt' });
+  });
+});
+
+describe('isOption', () => {
+  it('should verify whether text is option or not', () => {
+    assert.deepStrictEqual(isOption('-n'), true);
+    assert.deepStrictEqual(isOption('n'), false);
+  });
+
+  it('should verify option length is two character', () => {
+    assert.deepStrictEqual(isOption('-'), false);
+    assert.deepStrictEqual(isOption('-n'), true);
+    assert.deepStrictEqual(isOption('-nc'), false);
   });
 });
