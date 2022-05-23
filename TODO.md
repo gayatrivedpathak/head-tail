@@ -1,15 +1,16 @@
 TODO:
 
-- [x] Make head work for multiple files
-- [ ] Seperate headMain in seperate lib
+- [ ] Handle read file error in the head main
 - [ ] Handle error for reading files
 
 MAYBE:
 
-- [ ] Extract slice function
 
 DONE:
 
+- [x] Seperate testHeadMain in seperate lib
+- ~~[x] Extract slice function~~
+- [x] Make head work for multiple files
 - [x] Rethink on option object 
 - [x] Make head work with options from command line
 - [x] Extract getOption and getValue functions from parseArgs
