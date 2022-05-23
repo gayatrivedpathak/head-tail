@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { parseArgs, isOption } = require('../src/parseArgs.js');
+const { parseArgs, isOption, getOptionName, getValue } = require('../src/parseArgs.js');
 
 describe('parseArgs', () => {
   it('should parse just a file name', () => {
@@ -47,10 +47,22 @@ describe('parseArgs', () => {
   });
 
   it('should throw error -c and -n combined', () => {
-    assert.throws(() => parseArgs(['-n', 1, '-c', 2, './b.txt', './d.txt']),
+    assert.throws(() => parseArgs(['-n', '1', '-c', '2', './b.txt', './d.txt']),
       {
         message: 'head: can\'t combine line and byte counts'
       });
+  });
+
+  it('should throw error if value of any option is 0', () => {
+    assert.throws(() => parseArgs(['-n', '0', './b.txt']), {
+      message: 'head: illegal line count -- 0'
+    });
+  });
+
+  it('should throw error if invalid options provided', () => {
+    assert.throws(() => parseArgs(['-w', '2', './b.txt']), {
+      message: 'head: illegal option -- w\nusage: head[-n lines | -c bytes][file ...]'
+    });
   });
 });
 
@@ -59,5 +71,40 @@ describe('isOption', () => {
     assert.deepStrictEqual(isOption('-n'), true);
     assert.deepStrictEqual(isOption('n'), false);
     assert.deepStrictEqual(isOption('-n1'), true);
+  });
+});
+
+describe('getOptionName', () => {
+  it('should give corresponding optionName for -n', () => {
+    assert.deepStrictEqual(getOptionName('-n'), 'lines');
+  });
+
+  it('should give corresponding optionName for -c', () => {
+    assert.deepStrictEqual(getOptionName('-c'), 'character');
+  });
+
+  it('should give corresponding optionName for -1', () => {
+    assert.deepStrictEqual(getOptionName('-1'), 'lines');
+  });
+
+  it('should throw error if option is invalid', () => {
+    assert.throws(() => getOptionName('-w'), {
+      message: 'head: illegal option -- w\nusage: head[-n lines | -c bytes][file ...]'
+    });
+    assert.throws(() => getOptionName('-w2'), {
+      message: 'head: illegal option -- w\nusage: head[-n lines | -c bytes][file ...]'
+    });
+  });
+});
+
+describe('getValue', () => {
+  it('should give value', () => {
+    assert.deepStrictEqual(getValue('1', '-n'), 1);
+  });
+
+  it('should throw error if option is invalid', () => {
+    assert.throws(() => getValue('-n', '0'), {
+      message: 'head: illegal line count -- 0'
+    });
   });
 });

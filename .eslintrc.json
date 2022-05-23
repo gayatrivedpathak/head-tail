@@ -110,7 +110,17 @@
         "head.js"
       ],
       "rules": {
-        "no-console": "off"
+        "no-console": "off",
+        "complexity": "off"
+      }
+    },
+    {
+      "files": [
+        "parseArgs.js"
+      ],
+      "rules": {
+        "no-console": "off",
+        "complexity": "off"
       }
     }
   ]

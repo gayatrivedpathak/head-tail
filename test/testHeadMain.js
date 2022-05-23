@@ -25,7 +25,7 @@ describe('headMain', () => {
       { './a.txt': 'a\nb\nc' }
     );
     assert.deepStrictEqual(
-      headMain(mockedReadFileSync, '-n', 2, './a.txt'),
+      headMain(mockedReadFileSync, '-n', '2', './a.txt'),
       'a\nb'
     );
   });
@@ -35,7 +35,7 @@ describe('headMain', () => {
       { './a.txt': 'a\nb\nc' }
     );
     assert.deepStrictEqual(
-      headMain(mockedReadFileSync, '-c', 3, './a.txt'),
+      headMain(mockedReadFileSync, '-c', '3', './a.txt'),
       'a\nb'
     );
   });

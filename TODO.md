@@ -2,6 +2,9 @@ TODO:
 
 - [ ] Handle read file error in the head main
 - [ ] Handle error for reading files
+- [ ] Handle error for invalid options
+- [ ] Restructure args data in parsArgs
+- [ ] Remove regular expressions
 
 MAYBE:
 

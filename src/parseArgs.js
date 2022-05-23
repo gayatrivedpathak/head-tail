@@ -1,22 +1,30 @@
 const isOption = (text) => {
-  const optionRegex = /^-./;
-  return optionRegex.test(text);
+  return text.startsWith('-');
 };
 
 const getOptionName = (text) => {
-  const keys = { '-n': 'lines', '-c': 'character' };
-  return keys['-' + `${text.match(/[nc]/)}`] || keys['-n'];
+  if (/-[nc\d+]/.test(text)) {
+    const keys = { '-n': 'lines', '-c': 'character' };
+    return keys['-' + `${text.match(/[nc]/)}`] || keys['-n'];
+  }
+  throw {
+    message: `head: illegal option -- ${text.match(/[a-z]/)}
+usage: head[-n lines | -c bytes][file ...]`
+  };
 };
 
 const getValue = (arg, nextArg) => {
-  return +nextArg || +`${arg.match(/\d/)}`;
+  const value = +`${arg.match(/\d/)}` || +nextArg;
+  if (value === 0) {
+    throw { message: 'head: illegal line count -- 0' };
+  }
+  return value;
 };
 
 const isNotValidArgs = (args) => {
   return args.includes('-c') && args.includes('-n');
 };
 
-// eslint-disable-next-line complexity
 const parseArgs = (args) => {
   if (isNotValidArgs(args)) {
     throw { message: 'head: can\'t combine line and byte counts' };
@@ -36,3 +44,5 @@ const parseArgs = (args) => {
 
 exports.parseArgs = parseArgs;
 exports.isOption = isOption;
+exports.getOptionName = getOptionName;
+exports.getValue = getValue;
