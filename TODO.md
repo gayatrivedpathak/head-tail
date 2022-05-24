@@ -1,17 +1,28 @@
 TODO:
 
+head:
 - [ ] Handle error for invalid options
-- [ ] Seperate the errorMessages from the functions
 - [ ] Test the parseArgs branch from the headMain
 - [ ] Refactor headMain funtion
 
+tail:
+- [ ] Investigate how tail command works
+- [ ] Make testTailLib.js and tailLib.js
+
 MAYBE:
+
+head:
 - [ ] Rethink name of headFile
-- [ ] Restructure args data in parsArgs
 - [ ] Consider throwing error when option is coming after the file names
 
 DONE:
 
+tail:
+- [x] Establish contract for tail
+
+head:
+- [x] Restructure args data in parsArgs
+- [x] Seperate the errorMessages from the functions
 - [x] Remove regular expressions
 - [x] Consider giving exitcodes from the headMain
 - [x] Modify the contract of the formatOutput function instead of multiple fileNames will accept single file
