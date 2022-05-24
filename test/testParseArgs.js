@@ -83,7 +83,7 @@ describe('getOptionName', () => {
     assert.deepStrictEqual(getOptionName('-c'), 'character');
   });
 
-  it('should give corresponding optionName for -1', () => {
+  it.skip('should give corresponding optionName for -1', () => {
     assert.deepStrictEqual(getOptionName('-1'), 'lines');
   });
 

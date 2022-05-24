@@ -5,7 +5,8 @@ const isOption = (text) => {
 };
 
 const getOptionName = (text) => {
-  if (/-[nc\d+]/.test(text)) {
+  const validOptions = ['-n', '-c'];
+  if (validOptions.includes(text)) {
     const keys = { '-n': 'lines', '-c': 'character' };
     return keys[text] || keys['-n'];
   }
