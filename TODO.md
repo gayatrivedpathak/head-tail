@@ -1,18 +1,18 @@
 TODO:
 
 - [ ] Handle error for invalid options
-- [ ] Rethink name of headFile
 - [ ] Seperate the errorMessages from the functions
 - [ ] Test the parseArgs branch from the headMain
-- [ ] Modify the contract of the formatOutput function instead of multiple fileNames will accept single file
 
 MAYBE:
+- [ ] Rethink name of headFile
 - [ ] Remove regular expressions
 - [ ] Restructure args data in parsArgs
 - [ ] Consider throwing error when option is coming after the file names
 
 DONE:
 
+- [x] Modify the contract of the formatOutput function instead of multiple fileNames will accept single file
 - [x] Handle read file error in the head main
 - [x] Mock the console.log and console.error
 - [x] Seperate testHeadMain in seperate lib

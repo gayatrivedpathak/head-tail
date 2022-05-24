@@ -15,13 +15,6 @@ const head = (content, { option, value }) => {
   return operation(content, value);
 };
 
-const headMultiFiles = (fileContents, subOptions) => {
-  return fileContents.map(({ fileName, content }) => {
-    const headContent = head(content, subOptions);
-    return { fileName, headContent };
-  });
-};
-
 const formatOutput = (fileName, headContent) => {
   return `==> ${fileName} <==\n${headContent}`;
 };
@@ -70,7 +63,6 @@ exports.head = head;
 exports.headLines = headLines;
 exports.headCharacters = headCharacters;
 exports.headMain = headMain;
-exports.headMultiFiles = headMultiFiles;
 exports.formatOutput = formatOutput;
 exports.headFile = headFile;
 exports.readFile = readFile;

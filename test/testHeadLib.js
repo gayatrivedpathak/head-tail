@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { head, headLines, headCharacters, headMultiFiles, formatOutput } = require('../src/headLib');
+const { head, headLines, headCharacters, formatOutput } = require('../src/headLib');
 
 describe('head', () => {
   it('should give a line', () => {
@@ -66,40 +66,8 @@ describe('headCharacters', () => {
   });
 });
 
-describe('headMultiFiles', () => {
-  it('should give the first 10 lines of a file', () => {
-    assert.deepStrictEqual(
-      headMultiFiles([{
-        fileName: './a.txt',
-        content: 'a\nb\nc\nd\ne\nf\ng\nh\ni\n'
-      }], { option: 'lines', value: 10 }),
-      [{ fileName: './a.txt', headContent: 'a\nb\nc\nd\ne\nf\ng\nh\ni\n' }]);
-  });
-
-  it('should give the first 10 lines of two files', () => {
-    assert.deepStrictEqual(
-      headMultiFiles([{
-        fileName: './a.txt',
-        content: 'a\nb\nc\nd\ne\nf\ng\nh\ni\nj'
-      },
-      { fileName: './b.txt', content: 'a\nb\nc\nd\ne\nf\ng\nh\ni\nj\nk' }],
-        { option: 'lines', value: 10 }),
-      [{ fileName: './a.txt', headContent: 'a\nb\nc\nd\ne\nf\ng\nh\ni\nj' },
-      { fileName: './b.txt', headContent: 'a\nb\nc\nd\ne\nf\ng\nh\ni\nj' }]);
+describe('formatOutput', () => {
+  it('should format file name and content', () => {
+    assert.deepStrictEqual(formatOutput('./a.txt', 'b'), '==> ./a.txt <==\nb');
   });
 });
-
-describe.skip('formatOutput', () => {
-  it('should format output of multiple files', () => {
-    assert.deepStrictEqual(
-      formatOutput([{
-        fileName: './a.txt',
-        headContent: 'b'
-      },
-      {
-        fileName: './b.txt',
-        headContent: 'b'
-      }]), '==> ./a.txt <==\nb\n\n==> ./b.txt <==\nb');
-  });
-});
-
