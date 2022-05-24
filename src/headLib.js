@@ -39,7 +39,7 @@ const headFile = (fileReader, fileName, subOptions, loggers, formatter) => {
     loggers.stdOut(formatter(headContent, fileName));
   } catch (error) {
     exitCode = 1;
-    loggers.stdErr(error.msg);
+    loggers.stdErr(error.message);
   } finally {
     return exitCode;
   }

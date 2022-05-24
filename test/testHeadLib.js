@@ -68,6 +68,6 @@ describe('headCharacters', () => {
 
 describe('formatOutput', () => {
   it('should format file name and content', () => {
-    assert.deepStrictEqual(formatOutput('./a.txt', 'b'), '==> ./a.txt <==\nb');
+    assert.deepStrictEqual(formatOutput('b', './a.txt'), '==> ./a.txt <==\nb');
   });
 });
