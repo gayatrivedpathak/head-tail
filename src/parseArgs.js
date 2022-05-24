@@ -1,3 +1,5 @@
+const { structArgs } = require('./restructArgs.js');
+
 const isOption = (text) => {
   return text.startsWith('-');
 };
@@ -5,40 +7,49 @@ const isOption = (text) => {
 const getOptionName = (text) => {
   if (/-[nc\d+]/.test(text)) {
     const keys = { '-n': 'lines', '-c': 'character' };
-    return keys['-' + `${text.match(/[nc]/)}`] || keys['-n'];
+    return keys[text] || keys['-n'];
   }
   throw {
-    message: `head: illegal option -- ${text.match(/[a-z]/)}
+    message: `head: illegal option -- ${text.slice(1, 2)}
 usage: head[-n lines | -c bytes][file ...]`
   };
 };
 
-const getValue = (arg, nextArg) => {
-  const value = +`${arg.match(/\d/)}` || +nextArg;
+const getValue = (arg) => {
+  const value = +arg;
   if (value === 0) {
     throw { message: 'head: illegal line count -- 0' };
   }
   return value;
 };
 
-const isNotValidArgs = (args) => {
-  return args.includes('-c') && args.includes('-n');
+const assertArgs = (args) => {
+  if (args.includes('-c') && args.includes('-n')) {
+    throw combinedOptionError();
+  }
+};
+
+const combinedOptionError = () => {
+  return { message: 'head: can\'t combine line and byte counts' };
+};
+
+const option = (arg, nextArg) => {
+  return {
+    option: getOptionName(arg),
+    value: getValue(nextArg)
+  };
 };
 
 const parseArgs = (args) => {
-  if (isNotValidArgs(args)) {
-    throw { message: 'head: can\'t combine line and byte counts' };
+  const structuredArgs = structArgs(args);
+  assertArgs(structuredArgs);
+  let parsedArgs = { option: 'lines', value: 10, fileNames: [] };
+  let index = 0;
+  while (isOption(structuredArgs[index])) {
+    parsedArgs = option(structuredArgs[index], structuredArgs[index + 1]);
+    index += 2;
   }
-  const parsedArgs = { option: 'lines', value: 10, fileNames: [] };
-  for (let index = 0; index < args.length; index++) {
-    const arg = args[index];
-    if (isOption(arg)) {
-      parsedArgs.option = getOptionName(arg);
-      parsedArgs.value = getValue(arg, args[index + 1]);
-    } else if (!isFinite(arg)) {
-      parsedArgs.fileNames.push(arg);
-    }
-  }
+  parsedArgs.fileNames = structuredArgs.slice(index);
   return parsedArgs;
 };
 
