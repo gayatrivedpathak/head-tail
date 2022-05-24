@@ -3,15 +3,17 @@ TODO:
 - [ ] Handle error for invalid options
 - [ ] Seperate the errorMessages from the functions
 - [ ] Test the parseArgs branch from the headMain
+- [ ] Refactor headMain funtion
 
 MAYBE:
 - [ ] Rethink name of headFile
-- [ ] Remove regular expressions
 - [ ] Restructure args data in parsArgs
 - [ ] Consider throwing error when option is coming after the file names
 
 DONE:
 
+- [x] Remove regular expressions
+- [x] Consider giving exitcodes from the headMain
 - [x] Modify the contract of the formatOutput function instead of multiple fileNames will accept single file
 - [x] Handle read file error in the head main
 - [x] Mock the console.log and console.error
