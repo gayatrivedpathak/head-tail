@@ -31,7 +31,7 @@ describe('parseArgs', () => {
       { option: 'lines', value: 3, fileNames: ['./b.txt'] });
   });
 
-  it.skip('should parse value without option', () => {
+  it('should parse value without option', () => {
     assert.deepStrictEqual(parseArgs(['-3', './b.txt']),
       { option: 'lines', value: 3, fileNames: ['./b.txt'] });
   });
@@ -53,7 +53,7 @@ describe('parseArgs', () => {
       });
   });
 
-  it.skip('should throw error if value of any option is 0', () => {
+  it('should throw error if value of any option is 0', () => {
     assert.throws(() => parseArgs(['-n', '0', './b.txt']), {
       message: 'head: illegal line count -- 0'
     });
