@@ -22,29 +22,48 @@ const headMultiFiles = (fileContents, subOptions) => {
   });
 };
 
-const formatOutput = (headContents) => {
-  if (headContents.length <= 1) {
-    return headContents[0].headContent;
-  }
-  return headContents.map(({ fileName, headContent }) => {
-    return `==> ${fileName} <==\n${headContent}`;
-  }).join('\n\n');
+const formatOutput = (fileName, headContent) => {
+  return `==> ${fileName} <==\n${headContent}`;
 };
 
-const headMain = (readFile, ...args) => {
+const readFileError = (fileName) => {
+  return { message: `head: ${fileName}: No such file or directory` };
+};
+
+const readFile = (fileReader, fileName) => {
+  try {
+    return fileReader(fileName, 'utf8');
+  } catch (error) {
+    throw readFileError(fileName);
+  }
+};
+
+const headFile = (fileReader, fileName, subOptions, errlogger) => {
+  try {
+    const content = readFile(fileReader, fileName);
+    return head(content, subOptions);
+  } catch (error) {
+    errlogger(error.message);
+  }
+};
+
+const headMain = (fileReader, logger, errlogger, ...args) => {
   let parsedArgs = {};
   try {
     parsedArgs = parseArgs(args);
-  } catch (err) {
-    return err.message;
+  } catch (error) {
+    errlogger(error.message);
   }
   const { fileNames, ...subOptions } = parsedArgs;
-  const fileContents = fileNames.map((fileName) => {
-    const content = readFile(fileName, 'utf8');
-    return { fileName, content };
+  if (fileNames.length <= 1) {
+    const content = headFile(fileReader, fileNames[0], subOptions, errlogger);
+    content && logger(content);
+    return;
+  }
+  fileNames.forEach((fileName) => {
+    const headContent = headFile(fileReader, fileName, subOptions, errlogger);
+    headContent && logger(formatOutput(fileName, headContent));
   });
-  const headContents = headMultiFiles(fileContents, subOptions);
-  return formatOutput(headContents);
 };
 
 exports.head = head;
@@ -53,3 +72,5 @@ exports.headCharacters = headCharacters;
 exports.headMain = headMain;
 exports.headMultiFiles = headMultiFiles;
 exports.formatOutput = formatOutput;
+exports.headFile = headFile;
+exports.readFile = readFile;

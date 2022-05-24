@@ -1,16 +1,20 @@
 TODO:
 
-- [ ] Handle read file error in the head main
-- [ ] Handle error for reading files
 - [ ] Handle error for invalid options
-- [ ] Restructure args data in parsArgs
-- [ ] Remove regular expressions
+- [ ] Rethink name of headFile
+- [ ] Seperate the errorMessages from the functions
+- [ ] Test the parseArgs branch from the headMain
+- [ ] Modify the contract of the formatOutput function instead of multiple fileNames will accept single file
 
 MAYBE:
-
+- [ ] Remove regular expressions
+- [ ] Restructure args data in parsArgs
+- [ ] Consider throwing error when option is coming after the file names
 
 DONE:
 
+- [x] Handle read file error in the head main
+- [x] Mock the console.log and console.error
 - [x] Seperate testHeadMain in seperate lib
 - ~~[x] Extract slice function~~
 - [x] Make head work for multiple files
