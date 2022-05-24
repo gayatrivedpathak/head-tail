@@ -15,7 +15,7 @@ const head = (content, { option, value }) => {
   return operation(content, value);
 };
 
-const formatOutput = (fileName, headContent) => {
+const formatOutput = (headContent, fileName) => {
   return `==> ${fileName} <==\n${headContent}`;
 };
 
@@ -31,32 +31,44 @@ const readFile = (fileReader, fileName) => {
   }
 };
 
-const headFile = (fileReader, fileName, subOptions, errlogger) => {
+const headFile = (fileReader, fileName, subOptions, loggers, formatter) => {
+  let exitCode = 0;
   try {
     const content = readFile(fileReader, fileName);
-    return head(content, subOptions);
+    const headContent = head(content, subOptions);
+    loggers.stdOut(formatter(headContent, fileName));
   } catch (error) {
-    errlogger(error.message);
+    exitCode = 1;
+    loggers.stdErr(error.msg);
+  } finally {
+    return exitCode;
   }
 };
 
-const headMain = (fileReader, logger, errlogger, ...args) => {
+const getFormatter = (fileNames) => {
+  return isMulipleFiles(fileNames) ? formatOutput : identity;
+};
+
+const isMulipleFiles = (files) => files.length > 1;
+
+const identity = (fileContent) => fileContent;
+
+const headMain = (fileReader, loggers, ...args) => {
   let parsedArgs = {};
   try {
     parsedArgs = parseArgs(args);
   } catch (error) {
-    errlogger(error.message);
+    loggers.stdErr(error.message);
+    return 1;
   }
   const { fileNames, ...subOptions } = parsedArgs;
-  if (fileNames.length <= 1) {
-    const content = headFile(fileReader, fileNames[0], subOptions, errlogger);
-    content && logger(content);
-    return;
-  }
+  const formatter = getFormatter(fileNames);
+  let finalExitCode = 0;
   fileNames.forEach((fileName) => {
-    const headContent = headFile(fileReader, fileName, subOptions, errlogger);
-    headContent && logger(formatOutput(fileName, headContent));
+    const code = headFile(fileReader, fileName, subOptions, loggers, formatter);
+    finalExitCode = Math.max(finalExitCode, code);
   });
+  return finalExitCode;
 };
 
 exports.head = head;
