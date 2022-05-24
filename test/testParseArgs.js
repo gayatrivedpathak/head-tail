@@ -83,10 +83,6 @@ describe('getOptionName', () => {
     assert.deepStrictEqual(getOptionName('-c'), 'character');
   });
 
-  it.skip('should give corresponding optionName for -1', () => {
-    assert.deepStrictEqual(getOptionName('-1'), 'lines');
-  });
-
   it('should throw error if option is invalid', () => {
     assert.throws(() => getOptionName('-w'), {
       message: 'head: illegal option -- w\nusage: head[-n lines | -c bytes][file ...]'

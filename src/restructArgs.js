@@ -4,13 +4,20 @@ const sliceAt = (text, position) => {
 
 const isOption = (arg) => arg.startsWith('-');
 
-const structArgs = function (args) {
+const getOption = (arg) => {
+  if (isFinite(arg.slice(1))) {
+    return ['-n', arg.slice(1)];
+  }
+  return sliceAt(arg, 2);
+};
+
+const standardizeArgs = function (args) {
   return args.flatMap(arg => {
     if (isOption(arg)) {
-      return sliceAt(arg, 2);
+      return getOption(arg);
     }
     return arg;
   }).filter(arg => arg.length);
 };
 
-exports.structArgs = structArgs;
+exports.standardizeArgs = standardizeArgs;

@@ -1,25 +1,37 @@
-const { structArgs } = require('./restructArgs.js');
+const { standardizeArgs } = require('./restructArgs.js');
+
+const invalidValueError = () => {
+  return { message: 'head: illegal line count -- 0' };
+};
+
+const combinedOptionError = () => {
+  return { message: 'head: can\'t combine line and byte counts' };
+};
+
+const invalidOptionError = (option) => {
+  return {
+    message: `head: illegal option -- ${option.slice(1, 2)}
+usage: head[-n lines | -c bytes][file ...]`
+  };
+};
 
 const isOption = (text) => {
   return text.startsWith('-');
 };
 
-const getOptionName = (text) => {
+const getOptionName = (option) => {
   const validOptions = ['-n', '-c'];
-  if (validOptions.includes(text)) {
+  if (validOptions.includes(option)) {
     const keys = { '-n': 'lines', '-c': 'character' };
-    return keys[text] || keys['-n'];
+    return keys[option] || keys['-n'];
   }
-  throw {
-    message: `head: illegal option -- ${text.slice(1, 2)}
-usage: head[-n lines | -c bytes][file ...]`
-  };
+  throw invalidOptionError(option);
 };
 
 const getValue = (arg) => {
   const value = +arg;
   if (value === 0) {
-    throw { message: 'head: illegal line count -- 0' };
+    throw invalidValueError();
   }
   return value;
 };
@@ -30,10 +42,6 @@ const assertArgs = (args) => {
   }
 };
 
-const combinedOptionError = () => {
-  return { message: 'head: can\'t combine line and byte counts' };
-};
-
 const option = (arg, nextArg) => {
   return {
     option: getOptionName(arg),
@@ -41,16 +49,16 @@ const option = (arg, nextArg) => {
   };
 };
 
-const parseArgs = (args) => {
-  const structuredArgs = structArgs(args);
-  assertArgs(structuredArgs);
-  let parsedArgs = { option: 'lines', value: 10, fileNames: [] };
+const parseArgs = (cmdLineArgs) => {
+  const args = standardizeArgs(cmdLineArgs);
+  assertArgs(args);
+  let parsedArgs = { option: 'lines', value: 10 };
   let index = 0;
-  while (isOption(structuredArgs[index])) {
-    parsedArgs = option(structuredArgs[index], structuredArgs[index + 1]);
+  while (isOption(args[index])) {
+    parsedArgs = option(args[index], args[index + 1]);
     index += 2;
   }
-  parsedArgs.fileNames = structuredArgs.slice(index);
+  parsedArgs.fileNames = args.slice(index);
   return parsedArgs;
 };
 
