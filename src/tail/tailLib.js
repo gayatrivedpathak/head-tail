@@ -1,19 +1,26 @@
 const tailLines = (content, count) => {
   const lines = content.split('\n');
-  const position = lines.length - count;
-  return lines.slice(position).join('\n');
+  return lines.slice(-count).join('\n');
 };
 
 const tailCharacters = (content, count) => {
-  const position = content.length - count;
-  return content.slice(position);
+  return content.slice(-count);
 };
 
-const tail = (content, { option, value }) => {
-  const operation = option === 'lines' ? tailLines : tailCharacters;
-  return operation(content, value);
+const reverse = (content) => {
+  return content.split('\n').reverse().join('\n');
 };
 
-exports.tail = tail;
+const getOperation = (flag) => {
+  return flag === 'lines' ? tailLines : tailCharacters;
+};
+
+const tail = (content, { flag, value, isReverse }) => {
+  const operation = getOperation(flag);
+  const tailContent = operation(content, value);
+  return isReverse ? reverse(tailContent) : tailContent;
+};
+
 exports.tailLines = tailLines;
 exports.tailCharacters = tailCharacters;
+exports.tail = tail;

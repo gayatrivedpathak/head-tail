@@ -7,7 +7,9 @@ head:
 
 tail:
 - [ ] Investigate how tail command works
-- [ ] Make tail work on file content instead of file 
+- [ ] Make tail works on file 
+- [ ] Make tail work on single file 
+- [ ] change the contract of tail function
 
 MAYBE:
 
@@ -18,6 +20,8 @@ head:
 DONE:
 
 tail:
+- [x] Implement reverse option (-r)
+- [x] Make tail work on file content instead of file 
 - [x] Implement the -n option on file content 
 - [x] Implement the -c option on file content
 - [x] Write expectations for tail
