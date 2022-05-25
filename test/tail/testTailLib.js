@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { tail, tailLines, tailCharacters } = require('../../src/tail/tailLib.js');
+const { tail, tailLines, tailCharacters, tailMain } = require('../../src/tail/tailLib.js');
 
 describe('tail', () => {
   it('should give the last 1 line', () => {
@@ -44,5 +44,20 @@ describe('tailCharacters', () => {
 
   it('should give all content if character count > number of character', () => {
     assert.deepStrictEqual(tailLines('hello', 2), 'hello');
+  });
+});
+
+const mockReadFileSync = (files) => {
+  return (fileName, encoding) => {
+    assert.deepStrictEqual(true, Object.keys(files).includes(fileName));
+    assert.deepStrictEqual(encoding, 'utf8');
+    return files[fileName];
+  };
+};
+
+describe('tailMain', () => {
+  it('should give the last 1 line of given file', () => {
+    const fileReader = mockReadFileSync({ './a.txt': 'a\nb' });
+    assert.deepStrictEqual(tailMain(fileReader, './a.txt'), 'b');
   });
 });

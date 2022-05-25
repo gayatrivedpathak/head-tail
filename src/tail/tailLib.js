@@ -21,6 +21,15 @@ const tail = (content, { flag, value, isReverse }) => {
   return isReverse ? reverse(tailContent) : tailContent;
 };
 
+const tailMain = (fileReader, ...args) => {
+  const fileName = args[args.length - 1];
+  const content = fileReader(fileName, 'utf8');
+  const flag = 'lines';
+  const value = 1;
+  return tail(content, { flag, value, isReverse: false });
+};
+
 exports.tailLines = tailLines;
 exports.tailCharacters = tailCharacters;
 exports.tail = tail;
+exports.tailMain = tailMain;
