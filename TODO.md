@@ -18,6 +18,8 @@ head:
 DONE:
 
 tail:
+- [x] Implement the -n option on file content 
+- [x] Implement the -c option on file content
 - [x] Write expectations for tail
 - [x] Make testTailLib.js and tailLib.js
 - [x] Establish contract for tail
