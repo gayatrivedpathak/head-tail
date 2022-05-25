@@ -7,8 +7,7 @@ head:
 
 tail:
 - [ ] Investigate how tail command works
-- [ ] Make testTailLib.js and tailLib.js
-- [ ] Change directory structure test/head test/tail src/head src/tail
+- [ ] Make tail work on file content instead of file 
 
 MAYBE:
 
@@ -19,7 +18,10 @@ head:
 DONE:
 
 tail:
+- [x] Write expectations for tail
+- [x] Make testTailLib.js and tailLib.js
 - [x] Establish contract for tail
+- [x] Change directory structure test/head test/tail src/head src/tail
 
 head:
 - [x] Restructure args data in parsArgs
