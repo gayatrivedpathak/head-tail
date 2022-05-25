@@ -8,6 +8,7 @@ head:
 tail:
 - [ ] Investigate how tail command works
 - [ ] Make testTailLib.js and tailLib.js
+- [ ] Change directory structure test/head test/tail src/head src/tail
 
 MAYBE:
 

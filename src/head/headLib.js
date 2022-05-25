@@ -1,4 +1,4 @@
-const { splitLines, joinLines } = require('../src/strUtils.js');
+const { splitLines, joinLines } = require('./strUtils.js');
 const { parseArgs } = require('./parseArgs.js');
 
 const headLines = (content, count) => {

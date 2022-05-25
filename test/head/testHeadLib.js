@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { head, headLines, headCharacters, formatOutput } = require('../src/headLib');
+const { head, headLines, headCharacters, formatOutput } = require('../../src/head/headLib');
 
 describe('head', () => {
   it('should give a line', () => {

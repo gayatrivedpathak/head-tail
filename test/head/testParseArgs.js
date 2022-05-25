@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { parseArgs, isOption, getOptionName, getValue } = require('../src/parseArgs.js');
+const { parseArgs, isOption, getOptionName, getValue } = require('../../src/head/parseArgs.js');
 
 describe('parseArgs', () => {
   it('should parse just a file name', () => {

@@ -1,4 +1,4 @@
-const { standardizeArgs } = require('../src/restructArgs');
+const { standardizeArgs } = require('../../src/head/restructArgs.js');
 const assert = require('assert');
 
 describe('standardizeArgs', () => {
@@ -14,4 +14,4 @@ describe('standardizeArgs', () => {
     assert.deepStrictEqual(standardizeArgs(['-n1', '-n', '2']),
       ['-n', '1', '-n', '2']);
   });
-});‸
+});
