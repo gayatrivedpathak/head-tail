@@ -1,7 +1,8 @@
 const assert = require('assert');
-const { parseArgs, isOption, getOptionName, getValue } = require('../../src/head/parseArgs.js');
+const parseLib = require('../../src/head/parseArgs.js');
 
 describe('parseArgs', () => {
+  const { parseArgs } = parseLib;
   it('should parse just a file name', () => {
     assert.deepStrictEqual(parseArgs(['./a.txt']),
       { option: 'lines', value: 10, fileNames: ['./a.txt'] });
@@ -48,9 +49,7 @@ describe('parseArgs', () => {
 
   it('should throw error -c and -n combined', () => {
     assert.throws(() => parseArgs(['-n', '1', '-c', '2', './b.txt', './d.txt']),
-      {
-        message: 'head: can\'t combine line and byte counts'
-      });
+      { message: 'head: can\'t combine line and byte counts' });
   });
 
   it('should throw error if value of any option is 0', () => {
@@ -60,13 +59,21 @@ describe('parseArgs', () => {
   });
 
   it('should throw error if invalid options provided', () => {
-    assert.throws(() => parseArgs(['-w', '2', './b.txt']), {
+    assert.throws(
+      () => parseArgs(['-w', '2', './b.txt']), {
       message: 'head: illegal option -- w\nusage: head[-n lines | -c bytes][file ...]'
     });
+  });
+
+  it('should throw error if file names not given', () => {
+    assert.throws(
+      () => parseArgs(['-n', '2']),
+      { message: 'usage: head[-n lines | -c bytes][file ...]' });
   });
 });
 
 describe('isOption', () => {
+  const { isOption } = parseLib;
   it('should verify whether text is option or not', () => {
     assert.deepStrictEqual(isOption('-n'), true);
     assert.deepStrictEqual(isOption('n'), false);
@@ -75,6 +82,7 @@ describe('isOption', () => {
 });
 
 describe('getOptionName', () => {
+  const { getOptionName } = parseLib;
   it('should give corresponding optionName for -n', () => {
     assert.deepStrictEqual(getOptionName('-n'), 'lines');
   });
@@ -94,6 +102,7 @@ describe('getOptionName', () => {
 });
 
 describe('getValue', () => {
+  const { getValue } = parseLib;
   it('should give value', () => {
     assert.deepStrictEqual(getValue('1', '-n'), 1);
   });

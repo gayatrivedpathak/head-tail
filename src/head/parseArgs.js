@@ -49,16 +49,27 @@ const option = (arg, nextArg) => {
   };
 };
 
+const usage = () => {
+  return { message: 'usage: head[-n lines | -c bytes][file ...]' };
+};
+
+const assertFiles = ({ fileNames }) => {
+  if (fileNames.length <= 0) {
+    throw usage();
+  }
+};
+
 const parseArgs = (cmdLineArgs) => {
   const args = standardizeArgs(cmdLineArgs);
   assertArgs(args);
   let parsedArgs = { option: 'lines', value: 10 };
   let index = 0;
-  while (isOption(args[index])) {
+  while (index < args.length && isOption(args[index])) {
     parsedArgs = option(args[index], args[index + 1]);
     index += 2;
   }
   parsedArgs.fileNames = args.slice(index);
+  assertFiles(parsedArgs);
   return parsedArgs;
 };
 
