@@ -1,11 +1,6 @@
+# Tail
+
 TODO:
-
-head:
-- [ ] Handle error for invalid options
-- [ ] Test the parseArgs branch from the headMain
-- [ ] Refactor headMain funtion
-
-tail:
 - [ ] Investigate how tail command works
 - [ ] Make tail works on file 
 - [ ] Make tail work on single file 
@@ -13,13 +8,7 @@ tail:
 
 MAYBE:
 
-head:
-- [ ] Rethink name of headFile
-- [ ] Consider throwing error when option is coming after the file names
-
 DONE:
-
-tail:
 - [x] Implement reverse option (-r)
 - [x] Make tail work on file content instead of file 
 - [x] Implement the -n option on file content 
@@ -29,7 +18,21 @@ tail:
 - [x] Establish contract for tail
 - [x] Change directory structure test/head test/tail src/head src/tail
 
-head:
+# Head
+
+TODO:
+
+- [ ] Handle error for invalid options
+- [ ] Refactor headMain funtion try to seperate forEach loop in seperate function
+- [ ] Handle no files error
+
+MAYBE:
+
+DONE:
+
+~~- [x] Rethink name of headFile~~
+- [x] Consider throwing error when option is coming after the file names
+- [x] Test the parseArgs branch from the headMain
 - [x] Restructure args data in parsArgs
 - [x] Seperate the errorMessages from the functions
 - [x] Remove regular expressions
