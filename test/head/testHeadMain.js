@@ -29,7 +29,7 @@ describe('headMain', () => {
       stdOut: mockConsole(logs, 'a\nb\nc\nd\ne\nf\ng\nh\ni\nj'),
       stdErr: mockConsole(errors)
     };
-    assert.strictEqual(headMain(fileReader, loggers, './a.txt'), 0);
+    assert.strictEqual(headMain(fileReader, loggers, ['./a.txt']), 0);
   });
 
   it('should print the first 2 lines of given file', () => {
@@ -39,7 +39,7 @@ describe('headMain', () => {
     const errors = [];
     const stdErr = mockConsole(errors);
     assert.strictEqual(
-      headMain(fileReader, { stdOut, stdErr }, '-n', '2', './a.txt'),
+      headMain(fileReader, { stdOut, stdErr }, ['-n', '2', './a.txt']),
       0);
   });
 
@@ -52,7 +52,7 @@ describe('headMain', () => {
       stdErr: mockConsole(errors)
     };
     assert.strictEqual(
-      headMain(fileReader, loggers, '-c', '3', './a.txt'), 0);
+      headMain(fileReader, loggers, ['-c', '3', './a.txt']), 0);
   });
 
   it('should print 10 lines for two files', () => {
@@ -67,7 +67,9 @@ describe('headMain', () => {
         '==> ./b.txt <==\na\nb\nc\nd\ne\nf\ng\nh\ni\nj'),
       stdErr: mockConsole(errors)
     };
-    assert.strictEqual(headMain(fileReader, loggers, './a.txt', './b.txt'), 0);
+    assert.strictEqual(
+      headMain(fileReader, loggers, ['./a.txt', './b.txt']),
+      0);
   });
 
   it('should print 1 line for two files', () => {
@@ -81,7 +83,7 @@ describe('headMain', () => {
       stdErr: mockConsole(errors)
     };
     assert.strictEqual(
-      headMain(fileReader, loggers, '-n', '1', './a.txt', './b.txt'),
+      headMain(fileReader, loggers, ['-n', '1', './a.txt', './b.txt']),
       0);
   });
 
@@ -91,9 +93,10 @@ describe('headMain', () => {
     const errors = [];
     const loggers = {
       stdOut: mockConsole(logs),
-      stdErr: mockConsole(errors, ['head: ./b.txt: No such file or directory'])
+      stdErr: mockConsole(errors, 'head: ./b.txt: No such file or directory')
     };
-    assert.strictEqual(headMain(fileReader, loggers, '-n', '1', './b.txt'), 1);
+    assert.strictEqual(
+      headMain(fileReader, loggers, ['-n', '1', './b.txt']), 1);
   });
 
   it('should print 1 line for existing file and an error for unexisting file',
@@ -106,7 +109,7 @@ describe('headMain', () => {
         stdErr: mockConsole(errors, 'head: ./b.txt: No such file or directory')
       };
       assert.strictEqual(
-        headMain(fileReader, loggers, '-n', '1', './b.txt'),
+        headMain(fileReader, loggers, ['-n', '1', './b.txt']),
         1);
     });
 
@@ -119,7 +122,7 @@ describe('headMain', () => {
       stdErr: mockConsole(errors, 'head: can\'t combine line and byte counts')
     };
     assert.strictEqual(
-      headMain(fileReader, loggers, '-n', '1', '-c1', './b.txt'),
+      headMain(fileReader, loggers, ['-n', '1', '-c1', './b.txt']),
       1);
   });
 
@@ -132,7 +135,7 @@ describe('headMain', () => {
       stdErr: mockConsole(errors, 'head: illegal line count -- 0')
     };
     assert.strictEqual(
-      headMain(fileReader, loggers, '-n', '0', './b.txt'),
+      headMain(fileReader, loggers, ['-n', '0', './b.txt']),
       1);
   });
 
@@ -146,7 +149,7 @@ describe('headMain', () => {
         'head: illegal option -- q\nusage: head[-n lines | -c bytes][file ...]')
     };
     assert.strictEqual(
-      headMain(fileReader, loggers, '-q', '0', './b.txt'),
+      headMain(fileReader, loggers, ['-q', '0', './b.txt']),
       1);
   });
 
@@ -160,51 +163,39 @@ describe('headMain', () => {
         'usage: head[-n lines | -c bytes][file ...]')
     };
     assert.strictEqual(
-      headMain(fileReader, loggers, '-n', '1'), 1);
+      headMain(fileReader, loggers, ['-n', '1']), 1);
   });
 });
 
 describe('headFile', () => {
-  it('should give 0 as exit code for an existing file', () => {
+  it('should give headContent of a given file', () => {
     const fileReader = mockReadFileSync({ './a.txt': 'a\nb\nc' });
-    const errors = [];
-    const logs = [];
-    const loggers = {
-      stdOut: mockConsole(logs, 'a\nb'),
-      stdErr: mockConsole(errors)
-    };
-    const identity = (content) => content;
     const options = { option: 'lines', value: 2 };
-    assert.deepStrictEqual(
-      headFile(fileReader, './a.txt', options, loggers, identity),
-      0);
+    assert.deepStrictEqual(headFile('./a.txt', options, fileReader),
+      { headContent: 'a\nb', fileName: './a.txt' });
   });
 
-  it('should give 1 as exit code if file not exist', () => {
+  it('should give error if file not exist', () => {
     const fileReader = mockReadFileSync({ './a.txt': 'a\nb\nc' });
-    const errors = [];
-    const logs = [];
-    const loggers = {
-      stdOut: mockConsole(logs, 'a\nb'),
-      stdErr: mockConsole(errors, 'head: ./b.txt: No such file or directory')
-    };
     const options = { option: 'lines', value: 2 };
-    const identity = (content) => content;
-    assert.strictEqual(
-      headFile(fileReader, './b.txt', options, loggers, identity),
-      1);
+    assert.deepStrictEqual(headFile('./b.txt', options, fileReader),
+      {
+        error: { message: 'head: ./b.txt: No such file or directory' },
+        fileName: './b.txt'
+      });
   });
 });
 
 describe('readFile', () => {
   it('should give content if file is exist', () => {
     const mockedReadFileSync = mockReadFileSync({ './a.txt': 'a\nb\nc', });
-    assert.deepStrictEqual(readFile(mockedReadFileSync, './a.txt'), 'a\nb\nc');
+    assert.deepStrictEqual(readFile(mockedReadFileSync, './a.txt'),
+      { content: 'a\nb\nc' });
   });
 
   it('should throw error if file not exist', () => {
     const mockedReadFileSync = mockReadFileSync({ './a.txt': 'a\nb\nc', });
-    assert.throws(() => readFile(mockedReadFileSync, './b.txt'),
-      { message: 'head: ./b.txt: No such file or directory' });
+    assert.deepStrictEqual(readFile(mockedReadFileSync, './b.txt'),
+      { error: { message: 'head: ./b.txt: No such file or directory' } });
   });
 });
