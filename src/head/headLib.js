@@ -20,7 +20,11 @@ const multiFileFormatter = (headContent, fileName) => {
 };
 
 const readFileError = (fileName) => {
-  return { message: `head: ${fileName}: No such file or directory` };
+  return {
+    name: 'fileReadError',
+    message: `head: ${fileName}: No such file or directory`,
+    fileName
+  };
 };
 
 const readFile = (fileReader, fileName) => {
@@ -85,5 +89,7 @@ exports.headLines = headLines;
 exports.headCharacters = headCharacters;
 exports.headMain = headMain;
 exports.multiFileFormatter = multiFileFormatter;
+exports.singleFileFormatter = singleFileFormatter;
 exports.headOfFile = headOfFile;
 exports.readFile = readFile;
+exports.print = print;

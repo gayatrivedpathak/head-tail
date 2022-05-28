@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { headMain, headOfFile, readFile } = require('../../src/head/headLib');
+const headMainLib = require('../../src/head/headLib');
 
 const mockReadFileSync = (files) => {
   return (fileName, encoding) => {
@@ -19,6 +19,7 @@ const mockConsole = (inputs, ...expectedArgs) => {
 };
 
 describe('headMain', () => {
+  const { headMain } = headMainLib;
   it('should print the first 10 lines of given file', () => {
     const fileReader = mockReadFileSync(
       { './a.txt': 'a\nb\nc\nd\ne\nf\ng\nh\ni\nj' }
@@ -168,6 +169,8 @@ describe('headMain', () => {
 });
 
 describe('headFile', () => {
+  const { headOfFile } = headMainLib;
+
   it('should give headContent of a given file', () => {
     const fileReader = mockReadFileSync({ './a.txt': 'a\nb\nc' });
     const options = { option: 'lines', value: 2 };
@@ -180,13 +183,19 @@ describe('headFile', () => {
     const options = { option: 'lines', value: 2 };
     assert.deepStrictEqual(headOfFile('./b.txt', options, fileReader),
       {
-        error: { message: 'head: ./b.txt: No such file or directory' },
+        error: {
+          message: 'head: ./b.txt: No such file or directory',
+          fileName: './b.txt',
+          name: 'fileReadError'
+        },
         fileName: './b.txt'
       });
   });
 });
 
 describe('readFile', () => {
+  const { readFile } = headMainLib;
+
   it('should give content if file is exist', () => {
     const mockedReadFileSync = mockReadFileSync({ './a.txt': 'a\nb\nc', });
     assert.deepStrictEqual(readFile(mockedReadFileSync, './a.txt'),
@@ -196,6 +205,60 @@ describe('readFile', () => {
   it('should throw error if file not exist', () => {
     const mockedReadFileSync = mockReadFileSync({ './a.txt': 'a\nb\nc', });
     assert.deepStrictEqual(readFile(mockedReadFileSync, './b.txt'),
-      { error: { message: 'head: ./b.txt: No such file or directory' } });
+      {
+        error: {
+          message: 'head: ./b.txt: No such file or directory',
+          fileName: './b.txt',
+          name: 'fileReadError'
+        }
+      });
+  });
+});
+
+describe('print', () => {
+  const { print, singleFileFormatter, multiFileFormatter } = headMainLib;
+
+  it('should print the head of single file on output stream', () => {
+    const logs = [];
+    const errors = [];
+    const loggers = {
+      stdOut: mockConsole(logs, 'a'),
+      stdErr: mockConsole(errors)
+    };
+    const headOfFiles = [{ headContent: 'a', fileName: './b.txt' }];
+    print(headOfFiles, loggers, singleFileFormatter);
+    assert.deepStrictEqual(logs, ['a']);
+  });
+
+  it('should print the head of multiple files on output stream', () => {
+    const logs = [];
+    const errors = [];
+    const loggers = {
+      stdOut: mockConsole(logs, '==> ./b.txt <==\na', '==> ./a.txt <==\nb'),
+      stdErr: mockConsole(errors)
+    };
+    const headOfFiles = [
+      { headContent: 'a', fileName: './b.txt' },
+      { headContent: 'b', fileName: './a.txt' }
+    ];
+    print(headOfFiles, loggers, multiFileFormatter);
+    const expectedLogs = ['==> ./b.txt <==\na', '==> ./a.txt <==\nb'];
+    assert.deepStrictEqual(logs, expectedLogs);
+  });
+
+  it('should print the error on error stream', () => {
+    const logs = [];
+    const errors = [];
+    const loggers = {
+      stdOut: mockConsole(logs),
+      stdErr: mockConsole(errors, 'head: ./b.txt:No such file or directory')
+    };
+    const headOfFiles = [
+      { error: { message: 'head: ./b.txt:No such file or directory' } }
+    ];
+    print(headOfFiles, loggers, singleFileFormatter);
+    assert.deepStrictEqual(
+      errors,
+      ['head: ./b.txt:No such file or directory']);
   });
 });

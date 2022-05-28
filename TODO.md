@@ -22,15 +22,16 @@ DONE:
 
 TODO:
 
-- [ ] Handle error for invalid options
 - [ ] Refactor headMain funtion try to seperate forEach loop in seperate function
-- [ ] Test print functionality
-- [ ] Rethink structure of object returned from readFile function
+- [ ] Rethink structure of object returned from readFile function add name and file name init
+- [ ] Think on who should catch the errors of parse args headMain or main
 
 MAYBE:
 
 DONE:
 
+- [x] Test print functionality
+- [x] Handle error for invalid options
 - [x] Refactor headFile, reduce the parameters
 - [x] Handle no files error
 ~~- [x] Rethink name of headFile~~
