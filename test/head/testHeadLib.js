@@ -69,9 +69,11 @@ describe('headCharacters', () => {
   });
 });
 
-describe('formatOutput', () => {
-  const { formatOutput } = headLib;
+describe('multiFileFormatter', () => {
+  const { multiFileFormatter } = headLib;
   it('should format file name and content', () => {
-    assert.deepStrictEqual(formatOutput('b', './a.txt'), '==> ./a.txt <==\nb');
+    assert.deepStrictEqual(
+      multiFileFormatter('b', './a.txt'),
+      '==> ./a.txt <==\nb');
   });
 });

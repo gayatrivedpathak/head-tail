@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { headMain, headFile, readFile } = require('../../src/head/headLib');
+const { headMain, headOfFile, readFile } = require('../../src/head/headLib');
 
 const mockReadFileSync = (files) => {
   return (fileName, encoding) => {
@@ -171,14 +171,14 @@ describe('headFile', () => {
   it('should give headContent of a given file', () => {
     const fileReader = mockReadFileSync({ './a.txt': 'a\nb\nc' });
     const options = { option: 'lines', value: 2 };
-    assert.deepStrictEqual(headFile('./a.txt', options, fileReader),
+    assert.deepStrictEqual(headOfFile('./a.txt', options, fileReader),
       { headContent: 'a\nb', fileName: './a.txt' });
   });
 
   it('should give error if file not exist', () => {
     const fileReader = mockReadFileSync({ './a.txt': 'a\nb\nc' });
     const options = { option: 'lines', value: 2 };
-    assert.deepStrictEqual(headFile('./b.txt', options, fileReader),
+    assert.deepStrictEqual(headOfFile('./b.txt', options, fileReader),
       {
         error: { message: 'head: ./b.txt: No such file or directory' },
         fileName: './b.txt'

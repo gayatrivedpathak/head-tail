@@ -15,7 +15,7 @@ const head = (content, { option, value }) => {
   return operation(content, value);
 };
 
-const multiFilesFormatter = (headContent, fileName) => {
+const multiFileFormatter = (headContent, fileName) => {
   return `==> ${fileName} <==\n${headContent}`;
 };
 
@@ -42,7 +42,7 @@ const headOfFile = (fileName, subOptions, fileReader) => {
 };
 
 const getFormatter = (fileNames) => {
-  return isMulipleFiles(fileNames) ? multiFilesFormatter : singleFileFormatter;
+  return isMulipleFiles(fileNames) ? multiFileFormatter : singleFileFormatter;
 };
 
 const print = (headResults, { stdOut, stdErr }, formatter) => {
@@ -84,6 +84,6 @@ exports.head = head;
 exports.headLines = headLines;
 exports.headCharacters = headCharacters;
 exports.headMain = headMain;
-exports.multiFilesFormatter = multiFilesFormatter;
+exports.multiFileFormatter = multiFileFormatter;
 exports.headOfFile = headOfFile;
 exports.readFile = readFile;
