@@ -24,12 +24,15 @@ TODO:
 
 - [ ] Handle error for invalid options
 - [ ] Refactor headMain funtion try to seperate forEach loop in seperate function
-- [ ] Handle no files error
+- [ ] Test print functionality
+- [ ] Rethink structure of object returned from readFile function
 
 MAYBE:
 
 DONE:
 
+- [x] Refactor headFile, reduce the parameters
+- [x] Handle no files error
 ~~- [x] Rethink name of headFile~~
 - [x] Consider throwing error when option is coming after the file names
 - [x] Test the parseArgs branch from the headMain

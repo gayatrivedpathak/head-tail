@@ -1,7 +1,8 @@
 const assert = require('assert');
-const { head, headLines, headCharacters, formatOutput } = require('../../src/head/headLib');
+const headLib = require('../../src/head/headLib');
 
 describe('head', () => {
+  const { head } = headLib;
   it('should give a line', () => {
     const option = { option: 'lines', value: 1 };
     assert.deepStrictEqual(head('hello', option), 'hello');
@@ -39,6 +40,7 @@ describe('head', () => {
 });
 
 describe('headLines', () => {
+  const { headLines } = headLib;
   it('should give first 10 lines', () => {
     assert.deepStrictEqual(
       headLines('a\nb\nc\nd\ne\nf\ng\nh\ni\nj\nk', 10),
@@ -57,6 +59,7 @@ describe('headLines', () => {
 });
 
 describe('headCharacters', () => {
+  const { headCharacters } = headLib;
   it('should give first character', () => {
     assert.deepStrictEqual(headCharacters('h', 1), 'h');
   });
@@ -67,6 +70,7 @@ describe('headCharacters', () => {
 });
 
 describe('formatOutput', () => {
+  const { formatOutput } = headLib;
   it('should format file name and content', () => {
     assert.deepStrictEqual(formatOutput('b', './a.txt'), '==> ./a.txt <==\nb');
   });

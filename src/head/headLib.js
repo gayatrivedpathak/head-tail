@@ -15,7 +15,7 @@ const head = (content, { option, value }) => {
   return operation(content, value);
 };
 
-const formatOutput = (headContent, fileName) => {
+const multiFilesFormatter = (headContent, fileName) => {
   return `==> ${fileName} <==\n${headContent}`;
 };
 
@@ -25,35 +25,45 @@ const readFileError = (fileName) => {
 
 const readFile = (fileReader, fileName) => {
   try {
-    return fileReader(fileName, 'utf8');
+    const content = fileReader(fileName, 'utf8');
+    return { content };
   } catch (error) {
-    throw readFileError(fileName);
+    return { error: readFileError(fileName) };
   }
 };
 
-const headFile = (fileReader, fileName, subOptions, loggers, formatter) => {
-  let exitCode = 0;
-  try {
-    const content = readFile(fileReader, fileName);
+const headOfFile = (fileName, subOptions, fileReader) => {
+  const { content, error } = readFile(fileReader, fileName);
+  if (content) {
     const headContent = head(content, subOptions);
-    loggers.stdOut(formatter(headContent, fileName));
-  } catch (error) {
-    exitCode = 1;
-    loggers.stdErr(error.message);
-  } finally {
-    return exitCode;
+    return { fileName, headContent };
   }
+  return { error, fileName };
 };
 
 const getFormatter = (fileNames) => {
-  return isMulipleFiles(fileNames) ? formatOutput : identity;
+  return isMulipleFiles(fileNames) ? multiFilesFormatter : singleFileFormatter;
+};
+
+const print = (headResults, { stdOut, stdErr }, formatter) => {
+  headResults.forEach(({ headContent, error, fileName }) => {
+    if (headContent) {
+      stdOut(formatter(headContent, fileName));
+      return;
+    }
+    stdErr(error.message);
+  });
 };
 
 const isMulipleFiles = (files) => files.length > 1;
 
-const identity = (fileContent) => fileContent;
+const singleFileFormatter = (fileContent) => fileContent;
 
-const headMain = (fileReader, loggers, ...args) => {
+const successCode = (headResults) => {
+  return headResults.some(({ error }) => error) ? 1 : 0;
+};
+
+const headMain = (fileReader, loggers, args) => {
   let parsedArgs = {};
   try {
     parsedArgs = parseArgs(args);
@@ -63,18 +73,17 @@ const headMain = (fileReader, loggers, ...args) => {
   }
   const { fileNames, ...subOptions } = parsedArgs;
   const formatter = getFormatter(fileNames);
-  let finalExitCode = 0;
-  fileNames.forEach((fileName) => {
-    const code = headFile(fileReader, fileName, subOptions, loggers, formatter);
-    finalExitCode = Math.max(finalExitCode, code);
+  const headOfFiles = fileNames.map((fileName) => {
+    return headOfFile(fileName, subOptions, fileReader);
   });
-  return finalExitCode;
+  print(headOfFiles, loggers, formatter);
+  return successCode(headOfFiles);
 };
 
 exports.head = head;
 exports.headLines = headLines;
 exports.headCharacters = headCharacters;
 exports.headMain = headMain;
-exports.formatOutput = formatOutput;
-exports.headFile = headFile;
+exports.multiFilesFormatter = multiFilesFormatter;
+exports.headOfFile = headOfFile;
 exports.readFile = readFile;
